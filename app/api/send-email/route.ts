@@ -18,6 +18,8 @@ export async function POST(request: Request) {
       const guests = formData.get('guests') as string;
       const attending = (formData.get('attending') as string) || 'yes';
       const guestNames = (formData.get('guestNames') as string) || '';
+      const imageFile = formData.get('image') as File | null;
+      const textMessage = formData.get('textMessage') as string | null;
       const isAttending = attending === 'yes';
       const guestsNumber = parseInt(guests || '0', 10) || 0;
 
@@ -71,10 +73,45 @@ export async function POST(request: Request) {
         ? `<p><strong>Guest Names:</strong> ${guestNames}</p>`
         : '';
 
+      // Optional message sections
+      let attachments: any[] = [];
+      const messageSection = textMessage && textMessage.trim()
+        ? `
+          <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #e5e7eb;">
+            <p style="margin: 0 0 8px;"><strong>Message:</strong></p>
+            <div style="padding: 12px; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; white-space: pre-wrap; line-height: 1.6;">
+              ${textMessage.replace(/\n/g, '<br>')}
+            </div>
+          </div>
+        `
+        : '';
+
+      if (imageFile) {
+        const imageBytes = await imageFile.arrayBuffer();
+        const buffer = Buffer.from(imageBytes);
+        attachments.push({
+          filename: 'rsvp-drawing.png',
+          content: buffer,
+          cid: 'rsvp-drawing',
+          encoding: 'base64'
+        });
+      }
+
+      const drawingSection = imageFile
+        ? `
+          <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #e5e7eb;">
+            <p style="margin: 0 0 8px;"><strong>Drawing:</strong></p>
+            <div style="margin: 12px 0; padding: 12px; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px;">
+              <img src="cid:rsvp-drawing" alt="RSVP drawing" style="max-width: 100%; height: auto;" />
+            </div>
+          </div>
+        `
+        : '';
+
       // Send RSVP email
       try {
         const info = await transporter.sendMail({
-          from: `"Engagement Website" <${smtpUser}>`,
+          from: `"Wedding Website" <${smtpUser}>`,
           to: toEmail,
           subject: `New RSVP from ${name}`,
           html: `
@@ -85,12 +122,15 @@ export async function POST(request: Request) {
               <p><strong>Attendance:</strong> ${attendanceStatus}</p>
               ${guestsSection}
               ${guestNamesSection}
+              ${messageSection}
+              ${drawingSection}
             </div>
             <p style="color: #6b7280; font-size: 14px; margin-top: 20px;">
-              This RSVP was submitted through the engagement website.
+              This RSVP was submitted through the Wedding website.
             </p>
           </div>
         `,
+          attachments,
         });
 
         return Response.json({ 
@@ -178,7 +218,7 @@ export async function POST(request: Request) {
     let info;
     try {
       info = await transporter.sendMail({
-        from: `"Engagement Website" <${smtpUser}>`,
+        from: `"Wedding Website" <${smtpUser}>`,
         to: toEmail,
         subject: `New Message from ${name}`,
         html: `
