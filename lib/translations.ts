@@ -141,6 +141,38 @@ export const translations = {
     en: 'Guestbook',
     ar: 'سجل الضيوف',
   },
+  giftsSubtitle: {
+    en: 'Wedding Registry',
+    ar: 'هدايا الزفاف',
+  },
+  giftsTitle: {
+    en: 'Gifts',
+    ar: 'الهدايا',
+  },
+  giftsMessage: {
+    en: 'Your presence is the best gift we could receive. However, if you wish to contribute to our new life together, you can do so via bank transfer.',
+    ar: 'وجودكم هو أجمل هدية يمكن أن نحصل عليها. ولكن إن رغبتم في المساهمة في بداية حياتنا الجديدة، يمكنكم ذلك عبر التحويل البنكي.',
+  },
+  withAllOurLove: {
+    en: 'With all our love',
+    ar: 'مع كل حبنا',
+  },
+  bankDetailsTitle: {
+    en: 'Bank Details',
+    ar: 'تفاصيل الحساب',
+  },
+  accountHolderLabel: {
+    en: 'Account Holder:',
+    ar: 'اسم صاحب الحساب:',
+  },
+  accountNumberLabel: {
+    en: 'Account Number:',
+    ar: 'رقم الحساب:',
+  },
+  ibanLabel: {
+    en: 'IBAN:',
+    ar: 'رقم الآيبان:',
+  },
   rsvpSectionTitle: {
     en: 'Confirm Your Attendance',
     ar: 'تأكيد الحضور',

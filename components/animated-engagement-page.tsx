@@ -5,6 +5,7 @@ import { motion, AnimatePresence, type Variants } from "framer-motion"
 import CountdownTimer from "@/components/countdown-timer"
 import VenueMap from "@/components/venue-map"
 import Image from "next/image"
+import GiftsSection from "@/components/gifts-section"
 
 // Enhanced Animation variants
 const fadeInUp: Variants = {
@@ -77,7 +78,7 @@ export default function AnimatedEngagementPage() {
     setMounted(true)
     
     const handleScroll = () => {
-      const sections = ["hero", "countdown", "venue", "rsvp"]
+      const sections = ["hero", "countdown", "venue", "gifts", "rsvp"]
       const scrollPosition = window.scrollY + 100
 
       for (const section of sections) {
@@ -99,7 +100,7 @@ export default function AnimatedEngagementPage() {
       {/* Navigation Dots */}
       <div className="fixed right-8 top-1/2 transform -translate-y-1/2 z-50 hidden lg:block">
         <div className="flex flex-col gap-4">
-          {["hero", "countdown", "venue", "rsvp"].map((section) => (
+          {["hero", "countdown", "venue", "gifts", "rsvp"].map((section) => (
             <motion.button
               key={section}
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
@@ -498,6 +499,18 @@ export default function AnimatedEngagementPage() {
             >
               <VenueMap />
             </motion.div>
+          </motion.div>
+
+          {/* Gifts Section */}
+          <motion.div
+            id="gifts"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.25 }}
+            className="max-w-4xl mx-auto"
+          >
+            <GiftsSection />
           </motion.div>
 
           {/* RSVP Section */}

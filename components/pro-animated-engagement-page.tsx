@@ -11,6 +11,7 @@ import { useTranslation } from "@/lib/translations"
 import { useLanguage } from "@/contexts/LanguageContext"
 import { Button } from "@/components/ui/button"
 import PhotoUploadSection from "@/components/photo-upload-section"
+import GiftsSection from "@/components/gifts-section"
 import RSVPSection from "@/components/rsvp-section"
 import { Footer } from "@/components/footer"
 import {
@@ -20,6 +21,7 @@ import {
   VolumeX,
   Sparkles,
   Clock,
+  Gift,
   MapPin,
   Info,
   MessageSquare,
@@ -202,7 +204,7 @@ const fastStaggerContainer: Variants = {
   }
 }
 
-type SectionDividerVariant = "reveal" | "countdown" | "timeline" | "venue" | "notes" | "guestbook" | "rsvp" | "quote"
+type SectionDividerVariant = "reveal" | "countdown" | "timeline" | "venue" | "notes" | "guestbook" | "rsvp" | "gifts" | "quote"
 
 const SectionDivider = ({ variant }: { variant: SectionDividerVariant }) => {
   const Icon =
@@ -213,7 +215,8 @@ const SectionDivider = ({ variant }: { variant: SectionDividerVariant }) => {
             variant === "notes" ? Info :
               variant === "guestbook" ? MessageSquare :
                 variant === "rsvp" ? Mail :
-                  Quote
+                  variant === "gifts" ? Gift :
+                    Quote
 
   return (
     <div className="bg-transparent">
@@ -661,6 +664,12 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
           </div>
         </div>
       </section>
+      <SectionDivider variant="gifts" />
+
+      <div className="bg-transparent py-0">
+        <GiftsSection />
+      </div>
+
       <SectionDivider variant="rsvp" />
 
       {/* Unified RSVP & Message Section */}
